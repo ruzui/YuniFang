@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -65,6 +66,10 @@ public class SyFragment extends Fragment {
                         linear.addView(view);
                     }
                     break;
+                case 1:
+                    List<Syfragment_bean.DataBean.SubjectsBean> yy = (List<Syfragment_bean.DataBean.SubjectsBean>) msg.obj;
+                    listview.setAdapter(new adapter(getActivity(),subjects));
+                    break;
 
             }
 
@@ -74,6 +79,7 @@ public class SyFragment extends Fragment {
     Handler handler = new Handler();
     //图片网络地址
     String url_image = "http://m.yunifang.com/yunifang/mobile/home?random=84831&encode=9dd34239798e8cb22bf99a75d1882447";
+    private List<Syfragment_bean.DataBean.SubjectsBean> subjects;
     private List<Syfragment_bean.DataBean.DefaultGoodsListBean> ad5;
     private ViewPager vp;
     private int current;
@@ -86,6 +92,7 @@ public class SyFragment extends Fragment {
     private ImageView dhzq;
     private ImageView zwcx;
     private View inflate;
+    private ListView listview;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         inflate = View.inflate(getActivity(), R.layout.syfragment, null);
@@ -93,6 +100,7 @@ public class SyFragment extends Fragment {
         list_yuan = new ArrayList<>();
         linear_yuan = (LinearLayout) inflate.findViewById(R.id.lin);
         vp = (ViewPager) inflate.findViewById(R.id.vp);
+        listview = (ListView) inflate.findViewById(R.id.Home_page_listView);
         mrqd = (ImageView) inflate.findViewById(R.id.mrjd);
         jfsc = (ImageView) inflate.findViewById(R.id.jfsc);
         dhzq = (ImageView) inflate.findViewById(R.id.dhzq);
@@ -113,6 +121,8 @@ public class SyFragment extends Fragment {
         call.enqueue(new Callback() {
 
 
+
+
             @Override
             public void onFailure(Request request, IOException e) {
 
@@ -124,8 +134,11 @@ public class SyFragment extends Fragment {
                 Gson gosn = new Gson();
                 Syfragment_bean bean1 = gosn.fromJson(s, Syfragment_bean.class);
                 ad5 = bean1.getData().getDefaultGoodsList();
+                subjects = bean1.getData().getSubjects();
                 Message message = handler1.obtainMessage(0, ad5);
                 message.sendToTarget();
+                Message message1 = handler1.obtainMessage(1, subjects);
+                message1.sendToTarget();
             }
         });
     }
