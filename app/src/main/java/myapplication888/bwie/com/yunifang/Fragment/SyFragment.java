@@ -68,11 +68,9 @@ public class SyFragment extends Fragment {
                     break;
                 case 1:
                     List<Syfragment_bean.DataBean.SubjectsBean> yy = (List<Syfragment_bean.DataBean.SubjectsBean>) msg.obj;
-                    listview.setAdapter(new adapter(getActivity(),subjects));
+                    listview.setAdapter(new adapter(getActivity(), subjects));
                     break;
-
             }
-
         }
     };
     @Nullable
@@ -119,10 +117,6 @@ public class SyFragment extends Fragment {
         Request request = new Request.Builder().url(url_image).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
-
-
-
-
             @Override
             public void onFailure(Request request, IOException e) {
 
