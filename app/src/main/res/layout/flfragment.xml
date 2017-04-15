@@ -303,7 +303,18 @@
                         android:text="#敏感肤质#"
                         android:textSize="15sp" />
                 </LinearLayout>
+
             </LinearLayout>
+
         </LinearLayout>
+
+        <GridView
+            android:id="@+id/gv"
+            android:numColumns="2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+        </GridView>
     </LinearLayout>
+
 </ScrollView>
