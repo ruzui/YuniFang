@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -30,6 +31,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import chilijie.baway.com.gotopscrollviewlibrary.GoTopScrollview;
 import cz.msebera.android.httpclient.Header;
 import myapplication888.bwie.com.yunifang.R;
 
@@ -62,15 +64,16 @@ public class SyFragment extends Fragment {
                         name.setText(ad5.get(i).getGoods_name());
                         market_price.setText(ad5.get(i).getMarket_price() + "");
                         show_price.setText(ad5.get(i).getShop_price() + "");
-                        market_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                         linear.addView(view);
                     }
                     break;
                 case 1:
+
                     List<Syfragment_bean.DataBean.SubjectsBean> yy = (List<Syfragment_bean.DataBean.SubjectsBean>) msg.obj;
                     listview.setAdapter(new adapter(getActivity(), subjects));
                     break;
             }
+
         }
     };
     @Nullable
@@ -91,6 +94,8 @@ public class SyFragment extends Fragment {
     private ImageView zwcx;
     private View inflate;
     private ListView listview;
+    private ImageView gotoo;
+    private GoTopScrollview gotop;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         inflate = View.inflate(getActivity(), R.layout.syfragment, null);
@@ -103,6 +108,10 @@ public class SyFragment extends Fragment {
         jfsc = (ImageView) inflate.findViewById(R.id.jfsc);
         dhzq = (ImageView) inflate.findViewById(R.id.dhzq);
         zwcx = (ImageView) inflate.findViewById(R.id.zwcx);
+        gotoo = (ImageView) inflate.findViewById(R.id.gotoo);
+        gotop = (GoTopScrollview) inflate.findViewById(R.id.gotop);
+
+        gotop.setImgeViewOnClickListener(gotoo);
         ImageLoader.getInstance().displayImage("http://image.hmeili.com/yunifang/images/goods/ad0/160823172997710201253418883.png", mrqd);
         ImageLoader.getInstance().displayImage("http://image.hmeili.com/yunifang/images/goods/ad0/160623120383916524110935835.png", jfsc);
         ImageLoader.getInstance().displayImage("http://image.hmeili.com/yunifang/images/goods/ad0/160623120326416505640517284.png", dhzq);
@@ -177,8 +186,6 @@ public class SyFragment extends Fragment {
                 //设置小圆点的第一个是默认选中状态
                 list_yuan.get(0).setImageResource(R.drawable.yuan_select);
                 initDatas();
-
-
             }
         });
         vp.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -216,15 +223,12 @@ public class SyFragment extends Fragment {
             @Override
             public void run() {
                 current = vp.getCurrentItem();
-
                 vp.setCurrentItem(current + 1);
                 handler.postDelayed(this, 3000);
             }
+
         }, 50);
-
-
     }
-
     private void initDatas() {
         if (myAdapter == null) {
             myAdapter = new MyAdapter();
@@ -232,8 +236,6 @@ public class SyFragment extends Fragment {
         } else {
             myAdapter.notifyDataSetChanged();
         }
-
-
     }
 
     class MyAdapter extends PagerAdapter {

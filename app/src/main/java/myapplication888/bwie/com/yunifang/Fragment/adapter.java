@@ -48,6 +48,7 @@ public class adapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         String image = list.get(position).getImage();
+
         List<Syfragment_bean.DataBean.SubjectsBean.GoodsListBean> goodsList = list.get(position).getGoodsList();
 //            View secondView = LayoutInflater.from(context).inflate(R.layout.item_text_2,false);
         convertView = View.inflate(context, R.layout.syfragment_sj_, null);
@@ -66,6 +67,7 @@ public class adapter extends BaseAdapter {
             //将集合中的数据放到ImageView中
             //Glide.with(context).load(goodsList.get(j).getGoods_img()).into(img);
             ImageLoader.getInstance().displayImage(goodsList.get(j).getGoods_img(), img);
+            img.setScaleType(ImageView.ScaleType.FIT_XY);
             //给TextView添加文字
             tv.setText(goodsList.get(j).getGoods_name());
             tv_price.setText(goodsList.get(j).getShop_price() + "");

@@ -1,9 +1,9 @@
 package myapplication888.bwie.com.yunifang.Imageloder;
 
-import android.app.Application;
+        import android.app.Application;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+        import com.nostra13.universalimageloader.core.ImageLoader;
+        import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 /**
  * Created by dell on 2017/4/12.

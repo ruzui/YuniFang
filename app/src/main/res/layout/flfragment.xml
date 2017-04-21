@@ -36,6 +36,7 @@
         </LinearLayout>
 
         <LinearLayout
+             android:paddingTop="14dp"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:orientation="horizontal">
@@ -45,6 +46,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="8"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
                 android:background="@drawable/classify_facial_mask" />
 
             <LinearLayout
@@ -67,12 +70,14 @@
                         android:orientation="horizontal">
 
                         <ImageView
+                            android:layout_marginRight="6dp"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@drawable/runfu" />
 
                         <ImageView
+                            android:layout_marginRight="6dp"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -86,6 +91,7 @@
                         android:orientation="horizontal">
 
                         <ImageView
+                            android:layout_marginRight="6dp"
                             android:id="@+id/rfs"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -93,6 +99,7 @@
                             android:background="@drawable/runfushui" />
 
                         <ImageView
+                            android:layout_marginRight="6dp"
                             android:id="@+id/qita"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -102,6 +109,7 @@
                 </LinearLayout>
 
                 <ImageView
+                    android:layout_marginTop="13dp"
                     android:id="@+id/shihuitaozhuang"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -128,7 +136,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="- 按功效 -"
-                    android:textSize="25sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -136,7 +144,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="美丽从选对产品开始"
-                    android:textSize="15sp" />
+                    android:textSize="13sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -201,7 +209,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="按肤质"
-                    android:textSize="25sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -209,7 +217,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="适合自己的才是最好"
-                    android:textSize="15sp" />
+                    android:textSize="13sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -222,13 +230,14 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="9dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginRight="8dp"
+
                     android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="120dp"
+                        android:layout_height="115dp"
                         android:layout_marginBottom="8dp"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
@@ -239,7 +248,7 @@
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="120dp"
+                        android:layout_height="115dp"
                         android:layout_marginBottom="8dp"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
@@ -251,7 +260,7 @@
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="120dp"
+                        android:layout_height="115dp"
                         android:layout_marginBottom="8dp"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
@@ -312,8 +321,8 @@
             android:id="@+id/gv"
             android:numColumns="2"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
+            android:layout_height="2400dp"
+            >
         </GridView>
     </LinearLayout>
 

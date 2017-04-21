@@ -6,7 +6,7 @@
     <ImageView
         android:id="@+id/hot_special_image"
         android:layout_width="match_parent"
-        android:layout_height="220dp" />
+        android:layout_height="260dp" />
 
     <!--<HorizontalScrollView-->
         <!--android:layout_width="match_parent"-->
