@@ -68,9 +68,8 @@ public class SyFragment extends Fragment {
                     }
                     break;
                 case 1:
-
                     List<Syfragment_bean.DataBean.SubjectsBean> yy = (List<Syfragment_bean.DataBean.SubjectsBean>) msg.obj;
-                    listview.setAdapter(new adapter(getActivity(), subjects));
+                    Home_page_listview.setAdapter(new adapter(getActivity(), subjects));
                     break;
             }
 
@@ -93,34 +92,54 @@ public class SyFragment extends Fragment {
     private ImageView dhzq;
     private ImageView zwcx;
     private View inflate;
-    private ListView listview;
+    private ListView Home_page_listview;
     private ImageView gotoo;
     private GoTopScrollview gotop;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         inflate = View.inflate(getActivity(), R.layout.syfragment, null);
+        //找到无限轮播所用控件
+        find();
+        //点击回到顶部
+        zhiding();
+        //网络数据请求设置图片小圆点
+        getNetData();
+        //请求网络数据发送Handler消息做更新ui操作
+        intinite();
+        //首页四个按钮点击事件
+        syanniudianji();
+        return inflate;
+    }
+
+    private void zhiding() {
+        Home_page_listview = (ListView) inflate.findViewById(R.id.Home_page_listView);
+        gotoo = (ImageView) inflate.findViewById(R.id.gotoo);
+        gotop = (GoTopScrollview) inflate.findViewById(R.id.gotop);
+        gotop.setImgeViewOnClickListener(gotoo);
+    }
+
+    //找到无限轮播所用控件
+    private void find() {
         list_image = new ArrayList<>();
         list_yuan = new ArrayList<>();
         linear_yuan = (LinearLayout) inflate.findViewById(R.id.lin);
         vp = (ViewPager) inflate.findViewById(R.id.vp);
-        listview = (ListView) inflate.findViewById(R.id.Home_page_listView);
+    }
+
+    //首页四个按钮点击事件
+    private void syanniudianji() {
         mrqd = (ImageView) inflate.findViewById(R.id.mrjd);
         jfsc = (ImageView) inflate.findViewById(R.id.jfsc);
         dhzq = (ImageView) inflate.findViewById(R.id.dhzq);
         zwcx = (ImageView) inflate.findViewById(R.id.zwcx);
-        gotoo = (ImageView) inflate.findViewById(R.id.gotoo);
-        gotop = (GoTopScrollview) inflate.findViewById(R.id.gotop);
-
-        gotop.setImgeViewOnClickListener(gotoo);
         ImageLoader.getInstance().displayImage("http://image.hmeili.com/yunifang/images/goods/ad0/160823172997710201253418883.png", mrqd);
         ImageLoader.getInstance().displayImage("http://image.hmeili.com/yunifang/images/goods/ad0/160623120383916524110935835.png", jfsc);
         ImageLoader.getInstance().displayImage("http://image.hmeili.com/yunifang/images/goods/ad0/160623120326416505640517284.png", dhzq);
         ImageLoader.getInstance().displayImage("http://image.hmeili.com/yunifang/images/goods/ad0/160623120430916487170096321.png", zwcx);
-        getNetData();
-        intinite();
-        return inflate;
+
     }
 
+    //请求网络数据发送Handler消息做更新ui操作
     private void intinite() {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request request = new Request.Builder().url(url_image).build();
@@ -128,7 +147,6 @@ public class SyFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
-
             }
 
             @Override
@@ -146,22 +164,18 @@ public class SyFragment extends Fragment {
         });
     }
 
-
+    //网络数据请求设置图片小圆点
     private void getNetData() {
-
         AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
         asyncHttpClient.get(getActivity(), url_image, new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-
             }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
                 Gson gson = new Gson();
                 Syfragment_bean bean = gson.fromJson(responseString, Syfragment_bean.class);
-                //Log.d("aaa",bean.getDate().getAd1().toString());
-                // List<Syfragment_bean.Date.ad11> ad1 = bean.getDate().getAd1();
                 List<Syfragment_bean.DataBean.Ad1Bean> ad1 = bean.getData().getAd1();
                 for (int i = 0; i < ad1.size(); i++) {
                     //獲取網絡地址
@@ -188,10 +202,10 @@ public class SyFragment extends Fragment {
                 initDatas();
             }
         });
+        //联动viewpager轮播设置小圆点联动的监听
         vp.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
@@ -214,11 +228,10 @@ public class SyFragment extends Fragment {
 
     }
 
-
+    //生命周期自动发送任务（达到自动轮播效果）
     @Override
     public void onResume() {
         super.onResume();
-
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -229,6 +242,8 @@ public class SyFragment extends Fragment {
 
         }, 50);
     }
+
+    //创建无限轮播适配器
     private void initDatas() {
         if (myAdapter == null) {
             myAdapter = new MyAdapter();
@@ -238,8 +253,8 @@ public class SyFragment extends Fragment {
         }
     }
 
+    //无限轮播设置适配器
     class MyAdapter extends PagerAdapter {
-
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             View view = list_image.get(position % (list_image.size()));

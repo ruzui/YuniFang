@@ -40,9 +40,6 @@ import myapplication888.bwie.com.yunifang.Activity.MainActivity;
 import myapplication888.bwie.com.yunifang.R;
 
 public class Flfagment_mingxing extends AppCompatActivity implements View.OnClickListener {
-    private Gson gson;
-    private List<Flfagment_mingxing_gv_bean.DataBean.GoodsBean.AttributesBean> attributes;
-    private List<Flfagment_mingxing_gv_bean.DataBean.CommentsBean> comments;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -80,6 +77,9 @@ public class Flfagment_mingxing extends AppCompatActivity implements View.OnClic
             }
         }
     };
+    private Gson gson;
+    private List<Flfagment_mingxing_gv_bean.DataBean.GoodsBean.AttributesBean> attributes;
+    private List<Flfagment_mingxing_gv_bean.DataBean.CommentsBean> comments;
     private String goods_desc;
     private Flfagment_mingxing_gv_bean bean;
     private double shipping_fee;
@@ -113,6 +113,15 @@ public class Flfagment_mingxing extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flfagment_mingxing);
+        //获取传值
+        String id1 = getIntent().getStringExtra("id1");
+         //找到控件
+        find();
+        //网络请求数据
+        getData(id1);
+
+    }
+    private void find() {
         list_image = new ArrayList<>();
         list_yuan = new ArrayList<>();
         linear_yuan = (LinearLayout) findViewById(R.id.mingxing_lin);
@@ -127,14 +136,9 @@ public class Flfagment_mingxing extends AppCompatActivity implements View.OnClic
         cpcs.setOnClickListener(this);
         pl = (TextView) findViewById(R.id.pl);
         pl.setOnClickListener(this);
-        String id1 = getIntent().getStringExtra("id1");
-        Log.e("sfasd", id1 + "");
-        getData(id1);
-
     }
-
-
     private void getdate() {
+
         mmname = (TextView) findViewById(R.id.mmname);
         xianjia = (TextView) findViewById(R.id.xianjia);
         yuanjia = (TextView) findViewById(R.id.yuanjia);
@@ -158,7 +162,6 @@ public class Flfagment_mingxing extends AppCompatActivity implements View.OnClic
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
             }
-
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
                 gson = new Gson();
@@ -209,16 +212,12 @@ public class Flfagment_mingxing extends AppCompatActivity implements View.OnClic
                 }
                 list_yuan.get(0).setImageResource(R.drawable.yuan_select);
                 initDatas();
-
-
             }
         });
         vp.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
-
             @Override
             public void onPageSelected(int position) {
                 for (int i = 0; i < list_yuan.size(); i++) {
@@ -229,14 +228,12 @@ public class Flfagment_mingxing extends AppCompatActivity implements View.OnClic
                     }
                 }
             }
-
             @Override
             public void onPageScrollStateChanged(int state) {
 
             }
         });
     }
-
     private void initDatas() {
         if (mxAdapter == null) {
             mxAdapter = new MXAdapter();
@@ -245,7 +242,6 @@ public class Flfagment_mingxing extends AppCompatActivity implements View.OnClic
             mxAdapter.notifyDataSetChanged();
         }
     }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

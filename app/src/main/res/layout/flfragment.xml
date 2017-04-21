@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,14 +43,14 @@
         <LinearLayout
              android:paddingTop="14dp"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="330dp"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/mianmo"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="8"
+                android:layout_weight="8.9"
                 android:layout_marginLeft="6dp"
                 android:layout_marginRight="6dp"
                 android:background="@drawable/classify_facial_mask" />
@@ -154,6 +159,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:paddingLeft="6dp"
                     android:id="@+id/bs"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -161,6 +167,7 @@
                     android:src="@drawable/bs" />
 
                 <ImageView
+                    android:paddingLeft="6dp"
                     android:id="@+id/sh"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -168,6 +175,7 @@
                     android:src="@drawable/sh" />
 
                 <ImageView
+                    android:paddingLeft="6dp"
                     android:id="@+id/ky"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -175,6 +183,7 @@
                     android:src="@drawable/ky" />
 
                 <ImageView
+                    android:paddingLeft="6dp"
                     android:id="@+id/mb"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -182,6 +191,7 @@
                     android:src="@drawable/mb" />
 
                 <ImageView
+                    android:paddingLeft="6dp"
                     android:id="@+id/jz"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -327,3 +337,4 @@
     </LinearLayout>
 
 </ScrollView>
+    </RelativeLayout>

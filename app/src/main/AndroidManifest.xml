@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".dateActivity.mianno" />
-        <activity android:name=".Fragment.Flfagment_mingxing"></activity>
+        <activity android:name=".Fragment.Flfagment_mingxing" />
+        <activity android:name=".Fragment.GongXiaoshuju"></activity>
     </application>
 
 </manifest>
