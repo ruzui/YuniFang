@@ -19,8 +19,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".dateActivity.mianno" />
+        <activity android:name=".Fragment.EffectActivity"/>
         <activity android:name=".Fragment.Flfagment_mingxing" />
-        <activity android:name=".Fragment.GongXiaoshuju"></activity>
+        <activity android:name=".Fragment.GongXiaoshuju" />
+        <activity android:name=".Fragment.Gongxiao"></activity>
     </application>
 
 </manifest>

@@ -2,6 +2,7 @@ package myapplication888.bwie.com.yunifang.Fragment;
 
 import android.content.Intent;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
@@ -9,15 +10,24 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
@@ -33,7 +43,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
 import myapplication888.bwie.com.yunifang.Activity.MainActivity;
@@ -77,6 +89,7 @@ public class Flfagment_mingxing extends AppCompatActivity implements View.OnClic
             }
         }
     };
+    private boolean flag;
     private Gson gson;
     private List<Flfagment_mingxing_gv_bean.DataBean.GoodsBean.AttributesBean> attributes;
     private List<Flfagment_mingxing_gv_bean.DataBean.CommentsBean> comments;
@@ -108,6 +121,21 @@ public class Flfagment_mingxing extends AppCompatActivity implements View.OnClic
     private TextView cpxq;
     private TextView cpcs;
     private TextView pl;
+    private TextView jiarugouwu;
+    private PopupWindow pw;
+    private RelativeLayout pw_jia;
+    private RelativeLayout pw_jian;
+    private ImageView pw_jiaimg;
+    private ImageView pw_jianimg;
+    private ImageView pw_iv;
+    private TextView pw_num;
+    private TextView pw_kucun;
+    private TextView pw_xiangou;
+    private TextView pw_price;
+    private Button pw_queding;
+    private Par_User.DataBean.GoodsBean goods;
+    private SharedPrefrenceUtils prefrenceUtils;
+    private int count = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,12 +143,15 @@ public class Flfagment_mingxing extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_flfagment_mingxing);
         //获取传值
         String id1 = getIntent().getStringExtra("id1");
-         //找到控件
+        prefrenceUtils = SharedPrefrenceUtils.Shoucang(this);
+        //找到控件
         find();
         //网络请求数据
         getData(id1);
-
+        //
+        getPopupwindow();
     }
+
     private void find() {
         list_image = new ArrayList<>();
         list_yuan = new ArrayList<>();
@@ -136,7 +167,110 @@ public class Flfagment_mingxing extends AppCompatActivity implements View.OnClic
         cpcs.setOnClickListener(this);
         pl = (TextView) findViewById(R.id.pl);
         pl.setOnClickListener(this);
+
+        jiarugouwu = (TextView) findViewById(R.id.jiarugouwu);
+        //加入购物车点击监听
+        jiarugouwu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (pw.isShowing()) {
+                    pw.dismiss();
+                } else {
+                    pw.showAtLocation(jiarugouwu, Gravity.BOTTOM, 0, 0);
+                }
+            }
+        });
     }
+
+    private void getPopupwindow() {
+        View view = View.inflate(Flfagment_mingxing.this, R.layout.popupwindow, null);
+        pw = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        pw.setFocusable(true);
+        pw.setTouchable(true);
+        pw.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorBg)));
+        pw_jia = (RelativeLayout) view.findViewById(R.id.pw_jia);
+        pw_jian = (RelativeLayout) view.findViewById(R.id.pw_jian);
+        pw_jiaimg = (ImageView) view.findViewById(R.id.pw_jiaimg);
+        pw_jianimg = (ImageView) view.findViewById(R.id.pw_jianimg);
+        pw_iv = (ImageView) view.findViewById(R.id.pw_iv);
+        pw_num = (TextView) view.findViewById(R.id.pw_num);
+        pw_kucun = (TextView) view.findViewById(R.id.pw_kucun);
+        pw_xiangou = (TextView) view.findViewById(R.id.pw_xiangou);
+        pw_price = (TextView) view.findViewById(R.id.pw_price);
+        pw_queding = (Button) view.findViewById(R.id.pw_queding);
+
+        pw_jia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (count == goods.getRestrict_purchase_num() - 1) {
+                    pw_jiaimg.setImageResource(R.mipmap.add_unable);
+                }
+
+                if (count < goods.getRestrict_purchase_num()) {
+                    count++;
+                    pw_num.setText(count + "");
+                    pw_jianimg.setImageResource(R.mipmap.reduce_able);
+                }
+            }
+        });
+        pw_jian.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                if (count == 2) {
+                    pw_jianimg.setImageResource(R.mipmap.reduce_unable);
+                }
+                if (count > 1) {
+                    count--;
+                    pw_num.setText(count + "");
+                    pw_jiaimg.setImageResource(R.mipmap.add_able);
+                }
+            }
+        });
+        pw_queding.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flag = prefrenceUtils.getSp("flag");
+                if (flag) {
+                    RequestQueue queue = Volley.newRequestQueue(Flfagment_mingxing.this);
+                    String url = "http://169.254.116.62:8080/bullking1/cart";
+                    StringRequest request = new StringRequest(com.android.volley.Request.Method.POST, url, new com.android.volley.Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String s) {
+                            Toast.makeText(Flfagment_mingxing.this, "成功加入购物车！", Toast.LENGTH_SHORT).show();
+                        }
+                    }, new com.android.volley.Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+                            Toast.makeText(Flfagment_mingxing.this, "加入购物车失败！", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }) {
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            Map<String, String> map = new HashMap<>();
+                            //store_id = 3850
+                            map.put("productID", goods.getId());
+                            map.put("count", pw_num.getText().toString().trim());
+                            map.put("price", goods.getShop_price() + "");
+                            map.put("pic", goods.getGoods_img());
+                            map.put("userID", SharedPrefrenceUtils.getId("id") + "");
+                            map.put("name", goods.getGoods_name());
+                            return map;
+                        }
+                    };
+                    queue.add(request);
+                } else {
+                    Toast.makeText(Flfagment_mingxing.this, "请先登录", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Flfagment_mingxing.this,WdFragment.class);
+                    startActivityForResult(intent, 12);
+                }
+            }
+        });
+    }
+
+
     private void getdate() {
 
         mmname = (TextView) findViewById(R.id.mmname);
@@ -162,6 +296,7 @@ public class Flfagment_mingxing extends AppCompatActivity implements View.OnClic
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
             }
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
                 gson = new Gson();
@@ -218,6 +353,7 @@ public class Flfagment_mingxing extends AppCompatActivity implements View.OnClic
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
+
             @Override
             public void onPageSelected(int position) {
                 for (int i = 0; i < list_yuan.size(); i++) {
@@ -228,12 +364,14 @@ public class Flfagment_mingxing extends AppCompatActivity implements View.OnClic
                     }
                 }
             }
+
             @Override
             public void onPageScrollStateChanged(int state) {
 
             }
         });
     }
+
     private void initDatas() {
         if (mxAdapter == null) {
             mxAdapter = new MXAdapter();
@@ -242,6 +380,7 @@ public class Flfagment_mingxing extends AppCompatActivity implements View.OnClic
             mxAdapter.notifyDataSetChanged();
         }
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -282,7 +421,7 @@ public class Flfagment_mingxing extends AppCompatActivity implements View.OnClic
 
         @Override
         public int getCount() {
-        return list_image.size();
+            return list_image.size();
         }
 
         @Override

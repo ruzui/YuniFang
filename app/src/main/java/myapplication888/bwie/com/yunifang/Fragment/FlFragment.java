@@ -74,28 +74,38 @@ public class FlFragment extends Fragment {
         bs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               startActivity(new Intent(getActivity(),GongXiaoshuju.class));
+               Intent intent= new Intent(getActivity(),EffectActivity.class);
+                intent.putExtra("newUrl","http://m.yunifang.com/yunifang/mobile/goods/getall?random=13819&encode=d58e53c4b9e24bd5ba276ba68f8e98ec&category_id=17");
+                 startActivity(intent);
+
             }
         });
-        //舒缓修复的点击事件
+
+          //舒缓修复的点击事件
         sh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent= new Intent(getActivity(),EffectActivity.class);
+                intent.putExtra("newUrl","http://m.yunifang.com/yunifang/mobile/goods/getall?random=13819&encode=d58e53c4b9e24bd5ba276ba68f8e98ec&category_id=17");
+                startActivity(intent);
             }
         });
         //美白提亮的点击事件
         mb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent= new Intent(getActivity(),EffectActivity.class);
+                intent.putExtra("newUrl","http://m.yunifang.com/yunifang/mobile/goods/getall?random=13819&encode=d58e53c4b9e24bd5ba276ba68f8e98ec&category_id=17");
+                startActivity(intent);
             }
         });
         //紧致抗皱的点击事件
         jz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent= new Intent(getActivity(),EffectActivity.class);
+                intent.putExtra("newUrl","http://m.yunifang.com/yunifang/mobile/goods/getall?random=13819&encode=d58e53c4b9e24bd5ba276ba68f8e98ec&category_id=17");
+                startActivity(intent);
             }
         });
     }

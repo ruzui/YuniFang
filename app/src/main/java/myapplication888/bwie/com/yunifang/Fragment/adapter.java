@@ -1,6 +1,7 @@
 package myapplication888.bwie.com.yunifang.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -46,7 +48,7 @@ public class adapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         String image = list.get(position).getImage();
 
         List<Syfragment_bean.DataBean.SubjectsBean.GoodsListBean> goodsList = list.get(position).getGoodsList();
@@ -57,9 +59,21 @@ public class adapter extends BaseAdapter {
         ImageLoader.getInstance().displayImage(image, hot_spring_image);
         //  Glide.with(context).load(image).into(hot_spring_image);
         for (int j = 0; j < goodsList.size(); j++) {
+
             View view = LayoutInflater.from(context).inflate(R.layout.syfragment_sj, hot_spring_linear, false);
             //通过View寻找ID实例化控件
             ImageView img = (ImageView) view.findViewById(R.id.imageView_commodity);
+            final int finalJ = j;
+            img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String s = list.get(position).getGoodsIdsList().get(finalJ);
+                    Intent intent = new Intent(context,Flfagment_mingxing.class);
+                    intent.putExtra("id1",s+"");
+                    Toast.makeText(context,s+"".toString(), Toast.LENGTH_SHORT).show();
+                    context.startActivity(intent);
+                }
+            });
             //实例化TextView控件
             TextView tv = (TextView) view.findViewById(R.id.textView_name);
             TextView tv_price = (TextView) view.findViewById(R.id.textView_price);

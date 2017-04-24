@@ -342,7 +342,7 @@
             android:text="加入购物车"
             android:textColor="#fdfcf8"
             android:textSize="13sp"
-
+             android:id="@+id/jiarugouwu"
             />
 
         <TextView
