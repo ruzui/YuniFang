@@ -11,8 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import com.baway.chilijie.R;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
@@ -24,6 +22,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import myapplication888.bwie.com.yunifang.Activity.MainActivity;
+import myapplication888.bwie.com.yunifang.R;
 
 public class RegisterActivity extends AppCompatActivity {
     private ImageView register_fan;
@@ -69,7 +68,6 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         initView();
     }
-
     private void initView() {
         register_fan = (ImageView) findViewById(R.id.register_fan);
         register_name = (EditText) findViewById(R.id.register_name);

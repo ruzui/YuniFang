@@ -136,7 +136,21 @@ public class Flfagment_mingxing extends AppCompatActivity implements View.OnClic
     private Par_User.DataBean.GoodsBean goods;
     private SharedPrefrenceUtils prefrenceUtils;
     private int count = 1;
+    private String url = "http://m.yunifang.com/yunifang/mobile/goods/detail?" +
+            "random=46389&encode=70ed2ed2facd7a812ef46717b37148d6&id=";
 
+    private Handler handler1 = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    String data = (String) msg.obj;
+                    getJson(data);
+                    break;
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,8 +162,34 @@ public class Flfagment_mingxing extends AppCompatActivity implements View.OnClic
         find();
         //网络请求数据
         getData(id1);
+        getData1(url + id1);
         //
         getPopupwindow();
+
+
+    }
+
+    //获取数据
+    private void getData1(String s) {
+        //创建OkHttpClient对象
+        OkHttpClient mOkHttpClient = new OkHttpClient();
+
+        //创建Request对象
+        Request request = new Request.Builder().url(s).build();
+        //得到Call
+        Call call = mOkHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                final String string = response.body().string();
+                Message message = handler1.obtainMessage(0, string);
+                message.sendToTarget();
+            }
+        });
     }
 
     private void find() {
@@ -239,6 +279,7 @@ public class Flfagment_mingxing extends AppCompatActivity implements View.OnClic
                         @Override
                         public void onResponse(String s) {
                             Toast.makeText(Flfagment_mingxing.this, "成功加入购物车！", Toast.LENGTH_SHORT).show();
+
                         }
                     }, new com.android.volley.Response.ErrorListener() {
                         @Override
@@ -263,11 +304,24 @@ public class Flfagment_mingxing extends AppCompatActivity implements View.OnClic
                     queue.add(request);
                 } else {
                     Toast.makeText(Flfagment_mingxing.this, "请先登录", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(Flfagment_mingxing.this,WdFragment.class);
+                    Intent intent = new Intent(Flfagment_mingxing.this,LoginActivity.class);
                     startActivityForResult(intent, 12);
                 }
             }
         });
+    }
+
+
+    //解析json串
+    private void getJson(String data) {
+        Gson gson = new Gson();
+        Par_User par_user = gson.fromJson(data, Par_User.class);
+        goods = par_user.getData().getGoods();
+
+        pw_kucun.setText("库存"+ goods.getStock_number()+"件");
+        pw_price.setText("￥"+ goods.getShop_price());
+        pw_xiangou.setText("限购"+ goods.getRestrict_purchase_num()+"件");
+
     }
 
 

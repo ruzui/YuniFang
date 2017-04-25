@@ -23,6 +23,8 @@
         <activity android:name=".Fragment.Flfagment_mingxing" />
         <activity android:name=".Fragment.GongXiaoshuju" />
         <activity android:name=".Fragment.Gongxiao"></activity>
+        <activity android:name=".Fragment.LoginActivity"></activity>
+        <activity android:name=".Fragment.RegisterActivity"></activity>
     </application>
 
 </manifest>

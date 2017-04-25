@@ -55,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (dataStr.equals("login succeed")){
                             Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                             SharedPrefrenceUtils.add("flag",true);
+
                             back();
                         }else{
                             Toast.makeText(LoginActivity.this, "该账号还没有注册", Toast.LENGTH_SHORT).show();
@@ -114,12 +115,10 @@ public class LoginActivity extends AppCompatActivity {
                         String content = "请求失败";
                         Message.obtain(handler, 0, content).sendToTarget();
                     }
-
                     @Override
                     public void onResponse(Response response) throws IOException {
                         String string = response.body().string();
                         Message.obtain(handler, 1, string).sendToTarget();
-
                     }
                 });
             }else if (!TextUtils.isEmpty(name) && TextUtils.isEmpty(pwd)){
@@ -130,7 +129,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
     private void back() {
         setResult(20);
         finish();
